@@ -142,46 +142,33 @@ How to Run sql_exporter.py
 
 The script will automatically load variables from the .env file. You can override them by setting environment variables directly in your shell.
 
-Linux/macOS:
-
-# Example: Run using settings from .env (assuming .env is configured)
-python sql_exporter.py
-
-# Example: Override a setting from .env (e.g., output format)
+## Linux/macOS:
+```
 OUTPUT_FORMAT="parquet" python sql_exporter.py
-
-Windows (Command Prompt):
-
-REM Example: Run using settings from .env
-python sql_exporter.py
-
+```
+## Windows (Command Prompt):
+```
 set OUTPUT_FORMAT="parquet"
 python sql_exporter.py
 set OUTPUT_FORMAT= REM Unset the variable after use
-
-Windows (PowerShell):
-
-# Example: Run using settings from .env
-python sql_exporter.py
-
-# Example: Override a setting from .env
+```
+## Windows (PowerShell):
+```
 $env:OUTPUT_FORMAT="parquet"
 python sql_exporter.py
 Remove-Item Env:\OUTPUT_FORMAT # Unset the variable after use
-
+```
 2. Using Docker for sql_exporter.py
 
 First, set up required environment variables in the Dockerfile and then build the Docker image:
 
 docker build -t sql-data-extractor .
 
-Then, run the Docker container. You can env vars by using the -e flag during docker run.
+Then, run the Docker container. You can override env vars by using the -e flag during docker run.
 
 Linux/macOS:
-
-# Example: 
+```
 mkdir output_data_dir # Create local directories
-# (Place your public_key.pem in the same directory as Dockerfile)
 
 docker run -it --rm \
   -v "$(pwd)/output_data_dir:/data" \
@@ -192,12 +179,11 @@ docker run -it --rm \
   -v "$(pwd)/output_data_dir:/data" \
   -e OUTPUT_FORMAT="parquet" \
   sql-data-extractor
-
+```
 Windows (Command Prompt):
-
+```
 REM Example: Run using settings from .env inside the container
 mkdir data output_data_dir
-REM (Place your database in 'data', and public_key.pem in the same directory as Dockerfile)
 
 docker run -it --rm ^
   -v "%cd%\output_data_dir:/data" ^
@@ -208,11 +194,10 @@ docker run -it --rm ^
   -v "%cd%\output_data_dir:/data" ^
   -e OUTPUT_FORMAT="parquet" ^
   sql-data-extractor
-
+```
 Windows (PowerShell):
-
-# Example: Run using settings from .env inside the container
-New-Item -ItemType Directory -Force -Path ".\data", ".\output_data_dir"
+```
+New-Item -ItemType Directory -Force -Path ".\output_data_dir"
 
 docker run -it --rm `
   -v "${PWD}/output_data_dir:/data" `
@@ -223,7 +208,7 @@ docker run -it --rm `
   -v "${PWD}/output_data_dir:/data" `
   -e OUTPUT_FORMAT="parquet" `
   sql-data-extractor
-
+```
 After execution, the output files (encrypted or unencrypted, CSV or Parquet) will be found in the specified local output directory.
 
 How to Run decrypt_files.py
@@ -245,28 +230,29 @@ Set the environment variables in your terminal before running the script.
 
 Linux/macOS:
 
+```
 # Example for decrypting files
 export PRIVATE_KEY_PATH='/path/to/your/private_key.pem'
 export ENCRYPTED_INPUT_PATH='output_users_encrypted_csv/' # Or a specific file like 'output_users_encrypted_csv/part_0.csv.enc'
 
 python decrypt_files.py
-
+```
 Windows (Command Prompt):
-
+```
 REM Example for decrypting files
 set PRIVATE_KEY_PATH=C:\path\to\your\private_key.pem
 set ENCRYPTED_INPUT_PATH=output_users_encrypted_csv\ REM Or a specific file like 'output_users_encrypted_csv\part_0.csv.enc'
 
 python decrypt_files.py
-
+```
 Windows (PowerShell):
-
+```
 # Example for decrypting files
 $env:PRIVATE_KEY_PATH='C:\path\to\your\private_key.pem'
 $env:ENCRYPTED_INPUT_PATH='output_users_encrypted_csv/' # Or a specific file like 'output_users_encrypted_csv/part_0.csv.enc'
 
 python decrypt_files.py
-
+```
 2. Using Docker for decrypt_files.py
 
 First, build the Docker image for the decryption script:
@@ -276,7 +262,7 @@ docker build -f Dockerfile.decrypt -t file-decryptor .
 Then, run the Docker container, providing the necessary environment variables and mounting volumes for key access and encrypted/decrypted files.
 
 Linux/macOS:
-
+```
 # Example for decrypting files from a directory
 mkdir -p decrypted_output # Directory for decrypted files
 # (Place your private_key.pem in the 'keys' directory, and encrypted files in 'output_users_encrypted_csv')
@@ -288,9 +274,9 @@ docker run -it --rm \
   -e PRIVATE_KEY_PATH="/app/keys/private_key.pem" \
   -e ENCRYPTED_INPUT_PATH="/app/encrypted_input" \
   file-decryptor
-
+```
 Windows (Command Prompt):
-
+```
 REM Example for decrypting files from a directory
 mkdir decrypted_output
 REM (Place your private_key.pem in the 'keys' directory, and encrypted files in 'output_users_encrypted_csv')
@@ -302,9 +288,9 @@ docker run -it --rm ^
   -e PRIVATE_KEY_PATH="/app/keys/private_key.pem" ^
   -e ENCRYPTED_INPUT_PATH="/app/encrypted_input" ^
   file-decryptor
-
+```
 Windows (PowerShell):
-
+```
 # Example for decrypting files from a directory
 New-Item -ItemType Directory -Force -Path ".\decrypted_output"
 # (Place your private_key.pem in the 'keys' directory, and encrypted files in 'output_users_encrypted_csv')
@@ -316,5 +302,5 @@ docker run -it --rm `
   -e PRIVATE_KEY_PATH="/app/keys/private_key.pem" `
   -e ENCRYPTED_INPUT_PATH="/app/encrypted_input" `
   file-decryptor
-
+```
 After decryption, the original (unencrypted) files will be created in the same directory as the encrypted files, or in the decrypted_output directory if you're using Docker and mapping a separate output volume.
