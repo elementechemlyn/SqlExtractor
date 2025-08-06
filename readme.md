@@ -161,9 +161,9 @@ Remove-Item Env:\OUTPUT_FORMAT # Unset the variable after use
 2. Using Docker for sql_exporter.py
 
 First, set up required environment variables in the Dockerfile and then build the Docker image:
-
+```
 docker build -t sql-data-extractor .
-
+```
 Then, run the Docker container. You can override env vars by using the -e flag during docker run.
 
 Linux/macOS:
