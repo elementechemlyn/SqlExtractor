@@ -1,0 +1,40 @@
+# Python cache and artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Dask and test output
+output_data_dir/
+decrypted_output/
+*.csv
+*.parquet
+*.csv.enc
+*.parquet.enc
+
+# Environment and secrets
+.env
+*.pem
+
+# pytest cache
+.pytest_cache/
+.cache/
+.vscode/
+
+# Docker artifacts
+*.log
+*.pid
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+
+# Ignore database files
+*.db
+
+# Ignore keys directory if present
+keys/

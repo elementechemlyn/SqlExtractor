@@ -1,0 +1,1 @@
+docker run -e DATABASE_SCHEMA=public -e DATABASE_TABLE=person -e DB_INDEX_COLUMN=person_id -e DATABASE_URL=postgresql+psycopg2://postgres:postgres@192.168.1.103:5432/omop -v /home/emlyn/develop/extractor/docker_output_data_dir:/data xtractor:latest

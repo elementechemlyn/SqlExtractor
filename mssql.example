@@ -1,0 +1,1 @@
+docker run -e DATABASE_TABLE=person -e DB_INDEX_COLUMN=person_id -e DATABASE_URL=mssql+pyodbc://omop:0Mopom0p@192.168.1.103:1433/omop?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes -v /home/emlyn/develop/extractor/docker_output_data_dir:/data xtractor:latest
